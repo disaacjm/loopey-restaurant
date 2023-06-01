@@ -1,5 +1,5 @@
 const express = require("express");
-const hbs = require("hbs")
+const hbs = require("hbs");
 const app = express();
 
 app.use(express.static("public")); // Make everything inside of public/ available
@@ -10,7 +10,6 @@ app.set("view engine", "hbs"); // sets HBS as the template engine
 
 hbs.registerPartials(__dirname + "/views/partials"); //tell HBS which directory we use for partials
 
-
 // app.get(path, code);
 // app.get(path, (req, res, next) => {});
 
@@ -18,12 +17,12 @@ hbs.registerPartials(__dirname + "/views/partials"); //tell HBS which directory 
 app.get("/", (req, res, next) => {
   console.log("we have received a request for the HOMEPAGE");
 
-  res.render("home-page")
+  res.render("home-page");
 });
 
 // GET /contact
 app.get("/contact", (req, res, next) => {
-  res.render("contact-page")
+  res.render("contact-page");
 });
 
 app.get("/pizzas/margarita", (req, res, send) => {
@@ -33,7 +32,7 @@ app.get("/pizzas/margarita", (req, res, send) => {
     title: "Pizza Margarita",
     price: 12,
     imageFile: "pizza_margarita.jpg",
-    ingredients: ['mozzarella', 'tomato sauce', 'basilicum'],
+    ingredients: ["mozzarella", "tomato sauce", "basilicum"],
   };
   res.render("product", pizzaDetails);
 });
@@ -44,7 +43,7 @@ app.get("/pizzas/veggie", (req, res, send) => {
     title: "Pizza Veggie",
     price: 14,
     imageFile: "pizza_veggie.jpg",
-    ingredients: ['cherry tomatoes', 'basilicum', 'Olives'],
+    ingredients: ["cherry tomatoes", "basilicum", "Olives"],
   };
   res.render("product", pizzaDetails);
 });
@@ -54,11 +53,20 @@ app.get("/pizzas/seafood", (req, res, send) => {
   const pizzaDetails = {
     title: "Pizza Seafood",
     imageFile: "pizza_seafood.jpg",
-    ingredients: ['tomato sauce', 'garlic', 'prawn'],
+    ingredients: ["tomato sauce", "garlic", "prawn"],
   };
 
   res.render("product", pizzaDetails);
 });
+
+
+// app.get("/product-list", (req, res, next)=> {
+//   Product.find() // asking for data from the Product MODEL and...
+//   .then ((productsFromDB)=> {
+//     res.render("products.list", {list: productsFromDB})
+//   .catch()
+//   })
+// })
 
 app.listen(3000, () => {
   console.log("server listening on port 3000...");
