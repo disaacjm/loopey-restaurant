@@ -8,8 +8,8 @@ mongoose
     console.log(`Connected! Database Name: "${response.connections[0].name}"`);
 
     const pizzaOne = {
-      title: "veggie",
-      price: 15,
+      title: "seafood",
+      price: 18,
       dough: "classic",
     };
 

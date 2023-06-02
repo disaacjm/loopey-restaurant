@@ -1,4 +1,4 @@
-<h1>{{title}} </h1>
+<h1>Pizza {{title}} </h1>
 
 
 {{#if price}}
@@ -18,10 +18,20 @@
         <li>{{this}}</li>
         {{/each}}
     </ul>
-
+{{#if dough}}
+<p>Dough: {{dough}} </p>
+{{/if}}
 </div>
+
+{{#if isVeggie}}
+    <h3> Veggie Pizza </h3>
+{{/if}}
+
+
 
 
 <img src="/images/{{imageFile}}" alt="" />
 
-{{> banner}}
+
+{{> ctaOrderNow}}
+
