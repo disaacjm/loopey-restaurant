@@ -30,33 +30,45 @@ app.get("/contact", (req, res, next) => {
   res.render("contact-page");
 });
 
-// GET /pizzas/margarita
-app.get("/pizzas/margarita", (req, res, send) => {
-  Pizza.findOne({ title: "margarita" })
+// GET /pizzas
+app.get("/pizzas", (req, res, next) => {
+  // console.log(req.query); // req.query is an object
+  // console.log(typeof req.query.maxPrice); // we will receive a string
+
+  // const {maxPrice} = req.query; // using object destructuring
+
+  let maximumPrice = req.query.maxPrice;
+  maximumPrice = Number(maximumPrice); //convert to a number
+
+  let filter = {};
+  if (maximumPrice) {
+    filter = { price: { $lte: maximumPrice } };
+  }
+
+  Pizza.find(filter)
+    .then((pizzas) => {
+      const data = {
+        pizzasArr: pizzas,
+      };
+
+      res.render("product-list", data);
+    })
+    .catch((e) => console.log("error getting pizzas from DB", e));
+});
+
+app.get("/pizzas/create-your-own-pizza", function (req, res, next) {
+  res.send("info about creating a custom pizza....");
+});
+
+//GET /pizzas/:pizzaName
+app.get("/pizzas/:pizzaName", (req, res, next) => {
+  // console.log(req.params.pizzaName);
+
+  Pizza.findOne({ title: req.params.pizzaName })
     .then((pizzaFromDB) => {
-      // console.log(pizzaFromDB)
       res.render("product", pizzaFromDB);
     })
     .catch((e) => console.log("error getting pizza from DB", e));
-});
-
-// GET /pizzas/veggie
-app.get("/pizzas/veggie", (req, res, send) => {
-  Pizza.findOne({ title: "veggie"})
-  .then((pizzaFromDB) => {
-    res.render("product", pizzaFromDB)
-  })
-  .catch((e) => console.log("error getting pizza from DB", e));
-});
-
-// GET /pizzas/seafood
-app.get("/pizzas/seafood", (req, res, send) => {
-  Pizza.findOne({ title: "seafood"})
-  .then((pizzaFromDB)=> {
-    res.render("product", pizzaFromDB);
-  })
-  .catch((e) => console.log("error getting pizza from DB", e));
-
 });
 
 app.listen(3000, () => {
