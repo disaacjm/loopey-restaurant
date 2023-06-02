@@ -1,6 +1,7 @@
 const express = require("express");
 const hbs = require("hbs");
 const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 
 const Pizza = require("./models/Pizza.model");
 
@@ -12,6 +13,8 @@ app.set("views", __dirname + "/views"); //tells our Express app where to look fo
 app.set("view engine", "hbs"); //sets HBS as the template engine
 
 hbs.registerPartials(__dirname + "/views/partials"); //tell HBS which directory we use for partials
+
+app.use(bodyParser.urlencoded({ extended: true }));
 
 mongoose
   .connect("mongodb://127.0.0.1/loopeyRestaurant")
@@ -70,6 +73,25 @@ app.get("/pizzas/:pizzaName", (req, res, next) => {
     })
     .catch((e) => console.log("error getting pizza from DB", e));
 });
+
+//
+// EXAMPLE OF A POST REQUEST + req.body
+//
+
+app.post("/login", (req, res, next) => {
+
+  // console.log(req.body)
+
+  const email = req.body.emailaddress;
+  const pwd = req.body.pwd;
+
+  if(pwd === "1234"){
+      res.send("welcome!")
+  } else {
+      res.send("wrong password")
+  }
+
+})
 
 app.listen(3000, () => {
   console.log("server listening on port 3000...");
